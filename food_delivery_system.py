@@ -21,18 +21,45 @@ customers = {
 restaurants = {
     "Aroma Biryani": [
         (1, "Chicken Dum Biryani", "Non-Veg", 240.0),
-        (2, "Paneer Tikka Biryani", "Veg", 200.0),
-        (3, "Mirchi Ka Salan", "Side", 50.0),
+        (2, "Mutton Sukka Biryani", "Non-Veg", 320.0),
+        (3, "Paneer Tikka Biryani", "Veg", 210.0),
+        (4, "Mirchi Ka Salan", "Side", 50.0),
+        (5, "Gulab Jamun (2 pcs)", "Dessert", 70.0),
     ],
-    "Green Leaf Cafe": [
-        (1, "Garden Veggie Pizza", "Veg", 320.0),
-        (2, "Mushroom Alfredo Pasta", "Veg", 280.0),
-        (3, "Cold Coffee", "Beverage", 90.0),
+    "Green Leaf Pure Veg": [
+        (1, "Paneer Butter Masala", "Veg", 230.0),
+        (2, "Dal Makhani Deluxe", "Veg", 190.0),
+        (3, "Butter Garlic Naan", "Bread", 55.0),
+        (4, "Veg Pulao with Raita", "Veg", 180.0),
+        (5, "Rasmalai (2 pcs)", "Dessert", 85.0),
+    ],
+    "Chaat & Chai Corner": [
+        (1, "Pani Puri (6 pcs)", "Chaat", 50.0),
+        (2, "Dahi Papdi Chaat", "Chaat", 80.0),
+        (3, "Sev Puri Crispy", "Chaat", 70.0),
+        (4, "Samosa Chaat Special", "Chaat", 75.0),
+        (5, "Masala Chai Pot", "Beverage", 40.0),
+    ],
+    "Madras Tiffin Room (Pure Veg)": [
+        (1, "Ghee Podi Masala Dosa", "Veg", 110.0),
+        (2, "Medu Vada (2 pcs)", "Snack", 60.0),
+        (3, "Sambar Mini Idli (14 pcs)", "Veg", 90.0),
+        (4, "Filter Coffee Degree", "Beverage", 45.0),
+        (5, "Rava Kesari", "Dessert", 65.0),
+    ],
+    "The Street Snack Hub": [
+        (1, "Pav Bhaji Extra Butter", "Snack", 120.0),
+        (2, "Vada Pav Classic (2 pcs)", "Snack", 60.0),
+        (3, "Cheese Maggi Masala", "Snack", 90.0),
+        (4, "Loaded French Fries", "Snack", 110.0),
+        (5, "Cold Badam Milk", "Beverage", 65.0),
     ],
     "Dragon Wok Express": [
         (1, "Schezwan Chicken Noodles", "Non-Veg", 220.0),
-        (2, "Veg Spring Rolls", "Veg", 150.0),
-        (3, "Manchow Soup", "Soup", 110.0),
+        (2, "Veg Hakka Noodles", "Veg", 180.0),
+        (3, "Crispy Chilli Babycorn", "Veg", 170.0),
+        (4, "Steamed Chicken Momos", "Non-Veg", 160.0),
+        (5, "Manchow Soup", "Soup", 100.0),
     ]
 }
 
@@ -143,10 +170,10 @@ def create_order():
     menu = restaurants[selected_restaurant]
 
     print(f"\n--- Menu: {selected_restaurant} ---")
-    print(f"{'Code':<6} | {'Item Name':<26} | {'Category':<10} | {'Price (Rs)':<10}")
-    print("-" * 60)
+    print(f"{'Code':<6} | {'Item Name':<28} | {'Category':<10} | {'Price (Rs)':<10}")
+    print("-" * 62)
     for code, item_name, cat, price in menu:
-        print(f"{code:<6} | {item_name:<26} | {cat:<10} | Rs {price:<8.2f}")
+        print(f"{code:<6} | {item_name:<28} | {cat:<10} | Rs {price:<8.2f}")
 
     ordered_items = []  # List of tuples: (item_name, qty, unit_price)
     subtotal = 0.0
@@ -203,21 +230,21 @@ def create_order():
     orders.append(order_record)
 
     # Print summary bill
-    print("\n" + "=" * 45)
+    print("\n" + "=" * 48)
     print(f"ORDER SUMMARY CONFIRMATION [ID: #{new_order_id}]")
-    print("=" * 45)
+    print("=" * 48)
     print(f"Customer   : {customers[cust_id]['name']} ({cust_id})")
     print(f"Restaurant : {selected_restaurant}")
-    print("-" * 45)
+    print("-" * 48)
     for name, qty, price in ordered_items:
-        print(f"{name:<25} x {qty:<2} = Rs {qty * price:>8.2f}")
-    print("-" * 45)
+        print(f"{name:<26} x {qty:<2} = Rs {qty * price:>8.2f}")
+    print("-" * 48)
     print(f"Subtotal            : Rs {subtotal:>8.2f}")
     print(f"Discount Applied    : -Rs {discount_amt:>7.2f}")
     print(f"Delivery Surcharge  : Rs {delivery_fee:>8.2f}")
     print(f"Final Payable Total : Rs {final_total:>8.2f}")
     print(f"Status              : Placed")
-    print("=" * 45)
+    print("=" * 48)
 
 
 def update_order_status():
@@ -267,14 +294,14 @@ def compare_orders():
         print("One or both Order IDs do not exist.")
         return
 
-    print("\n" + "=" * 55)
-    print(f"{'Attribute':<20} | {'Order #' + str(id1):<15} | {'Order #' + str(id2):<15}")
-    print("-" * 55)
-    print(f"{'Customer ID':<20} | {order1['cust_id']:<15} | {order2['cust_id']:<15}")
-    print(f"{'Restaurant':<20} | {order1['restaurant'][:15]:<15} | {order2['restaurant'][:15]:<15}")
-    print(f"{'Items Count':<20} | {sum(item[1] for item in order1['items']):<15} | {sum(item[1] for item in order2['items']):<15}")
-    print(f"{'Net Billed Total':<20} | Rs {order1['final_total']:<12.2f} | Rs {order2['final_total']:<12.2f}")
-    print("=" * 55)
+    print("\n" + "=" * 58)
+    print(f"{'Attribute':<20} | {'Order #' + str(id1):<16} | {'Order #' + str(id2):<16}")
+    print("-" * 58)
+    print(f"{'Customer ID':<20} | {order1['cust_id']:<16} | {order2['cust_id']:<16}")
+    print(f"{'Restaurant':<20} | {order1['restaurant'][:16]:<16} | {order2['restaurant'][:16]:<16}")
+    print(f"{'Items Count':<20} | {sum(item[1] for item in order1['items']):<16} | {sum(item[1] for item in order2['items']):<16}")
+    print(f"{'Net Billed Total':<20} | Rs {order1['final_total']:<13.2f} | Rs {order2['final_total']:<13.2f}")
+    print("=" * 58)
 
     diff = abs(order1["final_total"] - order2["final_total"])
     if order1["final_total"] > order2["final_total"]:
@@ -417,7 +444,7 @@ def main():
             for rest_name, items in restaurants.items():
                 print(f"\n[{rest_name}]")
                 for code, name, cat, price in items:
-                    print(f"  ({code}) {name:<24} [{cat:<8}] Rs {price:.2f}")
+                    print(f"  ({code}) {name:<26} [{cat:<10}] Rs {price:.2f}")
         elif choice == '3':
             create_order()
         elif choice == '4':
